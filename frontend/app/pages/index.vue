@@ -7,11 +7,11 @@
         class="img-fluid mb-3"
         width="50px"
       >
-      Django 6 + Django REST Framework + Nuxt 4 + Bootstrap 5
+      Django 6 + Django Ninja + Nuxt 4 + Bootstrap 5
     </h1>
     <p>
-      Example project showcasing API consumption from Django 6 + Django REST
-      Framework using Nuxt 4 + Bootstrap 5. Built as a reference implementation
+      Example project showcasing API consumption from Django 6 + Django Ninja
+      using Nuxt 4 + Bootstrap 5. Built as a reference implementation
       for developers building full-stack JavaScript/Python applications with
       decoupled architecture.
     </p>
