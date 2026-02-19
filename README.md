@@ -1,6 +1,6 @@
 <h1>Django 6 + Ninja + Nuxt 4 + Bootstrap 5</h1>
 
-Example project showcasing API consumption from Django 6 + Django REST Framework
+Example project showcasing API consumption from Django 6 + Django Ninja 
 using Nuxt 4 + Bootstrap 5. Built as a reference implementation for developers
 building full-stack JavaScript/Python applications with decoupled architecture.
 
@@ -59,12 +59,12 @@ Start the Django development server
 $ python manage.py runserver
 ```
 
-## Test the project:
+<h3>Test the project:</h3>
 
 Open your browser to http://127.0.0.1:8000 and you'll see the Django 6 CRUD
 application for managing people records.
 
-## Test the API of Django Ninja:
+<h3>Test the API of Django Ninja:</h3>
 
 Open your browser to: http://127.0.0.1:8000/api/docs
 
@@ -112,6 +112,6 @@ The Nuxt application will be available at http://localhost:3000/
 
 Once both servers are running:
 
-Backend API: http://127.0.0.1:8000/api/person - Django REST Framework endpoints
+Backend API: http://127.0.0.1:8000/api/person - Django Ninja person endpoint
 
 Frontend: http://localhost:3000/ - View the initial project page
