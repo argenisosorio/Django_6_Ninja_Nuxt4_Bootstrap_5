@@ -10,7 +10,7 @@ building full-stack JavaScript/Python applications with decoupled architecture.
 Python >= 3.12
 Django == 6.0.2
 django-ninja==1.5.3
-django-cors-headers
+django-cors-headers==4.9.0
 Node.js >= v20.20.0
 npm
 ```
