@@ -3,6 +3,15 @@
     <GoBack />
     <h1 class="mb-4">Register New Person</h1>
 
+    <div v-if="errorList.length > 0" class="alert alert-danger shadow-sm mb-4">
+      <h5 class="alert-heading">Por favor, corrige los siguientes errores:</h5>
+      <ul class="mb-0">
+        <li v-for="(error, index) in errorList" :key="index">
+          {{ error }}
+        </li>
+      </ul>
+    </div>
+
     <form @submit.prevent="savePerson">
       <div class="mb-3">
         <label class="form-label">Name</label>
@@ -10,7 +19,7 @@
           v-model="form.name"
           type="text"
           class="form-control"
-          required
+          :class="{ 'is-invalid': serverErrors.name }"
         >
       </div>
 
@@ -20,7 +29,7 @@
           v-model="form.email"
           type="email"
           class="form-control"
-          required
+          :class="{ 'is-invalid': serverErrors.email }"
         >
       </div>
 
@@ -30,14 +39,14 @@
           v-model.number="form.age"
           type="number"
           class="form-control"
-          required
+          :class="{ 'is-invalid': serverErrors.age }"
         >
       </div>
 
       <div class="d-flex justify-content-end gap-2">
         <NuxtLink to="/persons" class="btn btn-secondary">Cancel</NuxtLink>
-        <button type="submit" class="btn btn-primary">
-          Save
+        <button type="submit" class="btn btn-primary" :disabled="loader">
+          {{ loader ? 'Saving...' : 'Save' }}
         </button>
       </div>
     </form>
@@ -45,46 +54,66 @@
 </template>
 
 <script setup>
-// Inicializa el acceso a la variable de entorno para la URL base del backend.
 const config = useRuntimeConfig()
-// Ahora 'apiBase' contiene la URL base de la API configurada en el .env
 const apiBase = config.public.apiBase
-
-// Llamamos al estado global del loader para mostrar el spinner durante la petición
 const loader = useState('loader')
 
-// Configuramos el título de la página
 useHead({
   title: 'Register Person',
 })
 
-// Objeto reactivo para el formulario
+// Estado del formulario
 const form = ref({
   name: '',
   email: '',
   age: null
 })
 
-// Función para guardar la persona
-const savePerson = async () => {
-  loader.value = true // Activamos el spinner
+// Estado para almacenar los errores crudos del servidor
+const serverErrors = ref({})
 
-  // Validación simple para asegurarnos de que los campos no estén vacíos
+/**
+ * Computed Property para "aplanar" los errores.
+ * Transforma el objeto { email: [{message: '...'}], name: [...] }
+ * en una lista simple de strings: ['Error en email', 'Error en name']
+ */
+const errorList = computed(() => {
+  const messages = []
+  if (serverErrors.value) {
+    // Recorremos cada campo que tiene error
+    Object.values(serverErrors.value).forEach(fieldErrors => {
+      // Recorremos la lista de errores de ese campo específico
+      fieldErrors.forEach(error => {
+        messages.push(error.message)
+      })
+    })
+  }
+  return messages
+})
+
+const savePerson = async () => {
+  loader.value = true
+  serverErrors.value = {} // Limpiamos errores previos antes de intentar
+
   try {
-    // Usamos $fetch para peticiones manuales (POST, PUT, DELETE)
     await $fetch(`${apiBase}/person/`, {
       method: 'POST',
       body: form.value
     })
 
-    // Si todo sale bien, redirigimos a la lista
     navigateTo('/persons')
 
   } catch (err) {
-    console.error('Error saving data:', err)
-    alert('Failed to save person. Check Django logs.')
+    // Capturamos la respuesta del error 400 de Django Ninja
+    if (err.response && err.response._data && err.response._data.errors) {
+      serverErrors.value = err.response._data.errors
+    } else {
+      // Error genérico si no hay respuesta estructurada
+      console.error('Error inesperado:', err)
+      console.log('Ocurrió un error inesperado en el servidor.')
+    }
   } finally {
-    loader.value = false // Apagamos el spinner
+    loader.value = false
   }
 }
 </script>
