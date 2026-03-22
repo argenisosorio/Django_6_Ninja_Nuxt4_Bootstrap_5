@@ -6,10 +6,11 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ['name', 'email', 'age']
 
-        # Personalización de mensajes de error
+        # Personalización de todos los mensajes de error capturados por el form
         error_messages = {
             'name': {
                 'required': "El campo Nombre es obligatorio.",
+                'invalid': "El campo Nombre solo debe contener letras y espacios.",
             },
             'email': {
                 'required': "El campo Correo electrónico es obligatorio.",
@@ -18,10 +19,12 @@ class PersonForm(forms.ModelForm):
             'age': {
                 'required': "El campo Edad es obligatorio.",
                 'invalid': "El campo Edad debe ser un número entero.",
+                'min_value': "El campo Edad no puede ser negativo.",
+                'max_value': "El campo Edad no puede ser mayor a 120 años.",
             },
         }
 
-        # Agregamos clases de Bootstrap para que se vea bien en tu red local
+        # Agregamos clases de Bootstrap
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': ''}),
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': ''}),

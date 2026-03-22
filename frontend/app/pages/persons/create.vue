@@ -12,7 +12,7 @@
       </ul>
     </div>
 
-    <form @submit.prevent="savePerson">
+    <form novalidate @submit.prevent="savePerson">
       <div class="mb-3">
         <label class="form-label">Name</label>
         <input
@@ -66,7 +66,7 @@ useHead({
 const form = ref({
   name: '',
   email: '',
-  age: null
+  age: '',
 })
 
 // Estado para almacenar los errores crudos del servidor
