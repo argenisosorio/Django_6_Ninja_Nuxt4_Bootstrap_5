@@ -9,18 +9,18 @@ class PersonForm(forms.ModelForm):
         # Personalización de todos los mensajes de error capturados por el form
         error_messages = {
             'name': {
-                'required': "El campo Nombre es obligatorio.",
-                'invalid': "El campo Nombre solo debe contener letras y espacios.",
+                'required': "FORM: El campo Nombre es obligatorio.",
+                'invalid': "FORM: El campo Nombre solo debe contener letras y espacios.",
             },
             'email': {
-                'required': "El campo Correo electrónico es obligatorio.",
-                'invalid': "El campo Correo electrónico debe ser un correo válido.",
+                'required': "FORM: El campo Correo electrónico es obligatorio.",
+                'invalid': "FORM: El campo Correo electrónico debe ser un correo válido.",
             },
             'age': {
-                'required': "El campo Edad es obligatorio.",
-                'invalid': "El campo Edad debe ser un número entero.",
-                'min_value': "El campo Edad no puede ser negativo.",
-                'max_value': "El campo Edad no puede ser mayor a 120 años.",
+                'required': "FORM: El campo Edad es obligatorio.",
+                'invalid': "FORM: El campo Edad debe ser un número entero.",
+                'min_value': "FORM: El campo Edad no puede ser negativo.",
+                'max_value': "FORM: El campo Edad no puede ser mayor a 120 años.",
             },
         }
 

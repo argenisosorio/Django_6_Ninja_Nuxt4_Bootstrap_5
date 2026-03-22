@@ -20,8 +20,8 @@ class Person(models.Model):
     # Validamos que sea entre 0 y 120 años
     age = models.PositiveIntegerField(
         validators=[
-            MinValueValidator(0, message="El campo Edad no puede ser negativo."),
-            MaxValueValidator(120, message="El campo Edad no puede ser mayor a 120 años.")
+            MinValueValidator(0, message="MODEL: El campo Edad no puede ser negativo."),
+            MaxValueValidator(120, message="MODEL: El campo Edad no puede ser mayor a 120 años.")
         ],
         verbose_name="Edad"
     )

@@ -1,8 +1,9 @@
-from typing import List
+from typing import List, Any
 from django import forms
 from django.shortcuts import get_object_or_404
 from ninja import Router, ModelSchema, Schema
 from .models import Person
+
 
 # Inicializamos el Router de Ninja para agrupar estos endpoints
 router = Router()
@@ -19,6 +20,23 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ['name', 'email', 'age']
 
+        error_messages = {
+            'name': {
+                'required': "API: El campo Nombre es obligatorio.",
+                'invalid': "API: El campo Nombre solo debe contener letras y espacios.",
+            },
+            'email': {
+                'required': "API: El campo Correo electrónico es obligatorio.",
+                'invalid': "API: El campo Correo electrónico debe ser un correo válido.",
+            },
+            'age': {
+                'required': "API: El campo Edad es obligatorio.",
+                'invalid': "API: El campo Edad debe ser un número entero.",
+                'min_value': "API: El campo Edad no puede ser negativo.",
+                'max_value': "API: El campo Edad no puede ser mayor a 120 años.",
+            },
+        }
+
 # --- SCHEMAS (Capa de Serialización / Pydantic) ---
 
 class PersonSchema(ModelSchema):
@@ -32,13 +50,12 @@ class PersonSchema(ModelSchema):
 
 class PersonCreateSchema(Schema):
     """
-    Define qué datos ESPERAMOS recibir del cliente (Input).
-    Ninja valida automáticamente que los tipos de datos sean correctos
-    (ej: que 'age' sea un entero).
+    Usamos Any = None para que Pydantic NO detenga la petición
+    y permita que sea Django Form quien maneje los mensajes de error.
     """
-    name: str
-    email: str
-    age: int
+    name: Any = None
+    email: Any = None
+    age: Any = None
 
 class ErrorSchema(Schema):
     """
