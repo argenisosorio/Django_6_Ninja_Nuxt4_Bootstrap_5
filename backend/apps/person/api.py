@@ -52,7 +52,12 @@ class PersonCreateSchema(Schema):
     """
     Usamos Any = None para que Pydantic NO detenga la petición
     y permita que sea Django Form quien maneje los mensajes de error.
+
+    Comentadas las validaciones de tipo para dejar pasar los datos.
     """
+    #name: str
+    #email: str
+    #age: int
     name: Any = None
     email: Any = None
     age: Any = None
