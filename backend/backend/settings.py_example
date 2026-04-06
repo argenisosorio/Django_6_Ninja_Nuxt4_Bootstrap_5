@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "ninja_jwt",
     "ninja_jwt.token_blacklist",
-    "apps.person",
     "apps.products",
     "apps.users",
 ]
