@@ -6,7 +6,8 @@
     <form @submit.prevent="saveProduct">
       <div class="mb-3">
         <label for="nameInput" class="form-label">Name</label>
-        <input id="nameInput"
+        <input
+          id="nameInput"
           v-model="form.name"
           type="text"
           class="form-control"
@@ -16,7 +17,8 @@
 
       <div class="mb-3">
         <label for="priceInput" class="form-label">Price</label>
-        <input id="priceInput"
+        <input
+          id="priceInput"
           v-model="form.price"
           type="text"
           class="form-control"

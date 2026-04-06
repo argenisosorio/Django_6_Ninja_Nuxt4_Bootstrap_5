@@ -16,23 +16,23 @@
           <div class="mb-3">
             <label for="usernameInput" class="form-label">Username</label>
             <input 
-              type="text" 
-              class="form-control" 
-              id="usernameInput" 
-              v-model="username" 
+              id="usernameInput"
+              v-model="username"
+              type="text"
+              class="form-control"
               required 
-            />
+            >
           </div>
 
           <div class="mb-3">
             <label for="passwordInput" class="form-label">Password</label>
             <input 
+              id="passwordInput"
+              v-model="password"
               type="password" 
-              class="form-control" 
-              id="passwordInput" 
-              v-model="password" 
+              class="form-control"
               required 
-            />
+            >
           </div>
 
           <button type="submit" class="btn btn-primary w-100">Sign In</button>

@@ -11,10 +11,10 @@
     </h1>
 
     <button 
-      @click="handleLogout" 
       class="btn btn-danger mt-4"
       :disabled="isLoggingOut"
       aria-live="polite"
+      @click="handleLogout"
     >
       <span v-if="isLoggingOut">Logging out...</span>
       <span v-else>Log out</span>
