@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
+    "ninja_jwt",
+    "ninja_jwt.token_blacklist",
     'apps.products',
     'apps.users',
 ]
@@ -148,3 +150,17 @@ AUTH_USER_MODEL = "users.User"
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'users:user_list'
 LOGOUT_REDIRECT_URL = 'users:login'
+
+# Configuración de tokens de Ninja + JWT
+NINJA_JWT = {
+    # Tiempo de vida del token de acceso (Access Token)
+    # Define cuánto tiempo es válido el token para realizar peticiones a la API.
+    # Un tiempo corto (15 min) reduce el riesgo si el token es interceptado.
+    "ACCESS_TOKEN_LIFETIME": datetime.timedelta(minutes=15),
+
+    # Tiempo de vida del token de refresco (Refresh Token)
+    # Define cuánto tiempo tiene el usuario para renovar su Access Token
+    # sin tener que volver a introducir sus credenciales (login).
+    # Al expirar (1 día), el usuario deberá iniciar sesión nuevamente.
+    "REFRESH_TOKEN_LIFETIME": datetime.timedelta(days=1),
+}

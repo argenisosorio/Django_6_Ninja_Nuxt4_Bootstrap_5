@@ -47,11 +47,19 @@ $ python manage.py makemigrations users products
 $ python manage.py migrate
 ```
 
+Create a superuser
+
+```
+python manage.py createsuperuser
+```
+
 Start the Django development server
 
 ```
 $ python manage.py runserver
 ```
+
+sudo rm -rf apps/users/migrations && sudo rm -rf apps/products/migrations && sudo rm -rf db.sqlite3 && python manage.py makemigrations users products && python manage.py migrate && python manage.py createsuperuser && python manage.py runserver
 
 <h3>Test the project:</h3>
 
@@ -61,18 +69,6 @@ application for managing people records.
 <h3>Test the API of Django Ninja:</h3>
 
 Open your browser to: http://127.0.0.1:8000/api/docs
-
-From that interface (Swagger), you can:
-
-- View all your endpoints.
-
-- Click "Test it" and test all the methods.
-
-- Send a JSON object to create a person and see the response in real time.
-
-- List people http://127.0.0.1:8000/api/person/
-
-- Get people http://127.0.0.1:8000/api/person/{person_id}
 
 <h3>Frontend Setup (Nuxt)</h3>
 
