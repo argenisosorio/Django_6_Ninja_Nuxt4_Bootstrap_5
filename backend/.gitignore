@@ -8,3 +8,7 @@
 db.sqlite3
 backend/settings.py
 apps/products/migrations
+apps/product/migrations
+apps/persons/migrations
+apps/person/migrations
+apps/users/migrations
