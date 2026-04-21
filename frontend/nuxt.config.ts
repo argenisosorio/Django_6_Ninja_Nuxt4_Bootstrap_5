@@ -3,6 +3,10 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
 
+  experimental: {
+      // Esto es CLAVE. Evita que Nuxt busque archivos /static/_payload.json
+      payloadExtraction: false 
+  },
 
   runtimeConfig: {
     // Las variables dentro de 'public' son accesibles desde el navegador
@@ -11,8 +15,18 @@ export default defineNuxtConfig({
     }
   },
 
+  nitro: {
+    prerender: {
+      failOnError: false,
+      crawlLinks: true
+    }
+  },
+
   // Configuración de etiquetas Meta Globales
   app: {
+    baseURL: '/nuxt/',
+    buildAssetsDir: '_nuxt',
+
     head: {
       htmlAttrs: {
         lang: 'es' // Define el idioma del sitio
@@ -26,8 +40,14 @@ export default defineNuxtConfig({
         { name: 'author', content: 'Ing. Argenis Osorio' }
       ],
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+        { rel: 'icon', type: 'image/x-icon', href: '/static/favicon.ico' }
       ]
+    }
+  },
+
+  $production: {
+    app: {
+      cdnURL: '/static/'
     }
   },
 

@@ -3,6 +3,8 @@ from django.urls import include, path
 from ninja import NinjaAPI
 # Importamos el router de la app person
 from apps.person.api import router as person_router
+from django.views.generic import TemplateView
+from django.urls import re_path
 
 # 1. Instanciamos la API
 api = NinjaAPI(title="Mi Proyecto CRUD API")
@@ -19,4 +21,10 @@ urlpatterns = [
 
     # 3. La ruta para TODA la API y su documentación
     path("api/", api.urls),
+    
+    # 4. Ruta de Nuxt
+    path('nuxt/', TemplateView.as_view(template_name='index.html')),
+    
+    # 5. Ruta al nuxt/etc
+    re_path(r'^nuxt/.*$', TemplateView.as_view(template_name='index.html')),
 ]
