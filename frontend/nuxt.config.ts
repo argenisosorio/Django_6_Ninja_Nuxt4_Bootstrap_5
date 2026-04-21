@@ -1,8 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  // Desactiva el renderizado del lado del servidor para exportación estática (SSG)
+  ssr: false,
+
   compatibilityDate: '2025-07-15',
   devtools: { enabled: false },
-
 
   runtimeConfig: {
     // Las variables dentro de 'public' son accesibles desde el navegador
@@ -28,6 +30,15 @@ export default defineNuxtConfig({
       link: [
         { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
       ]
+    }
+  },
+
+  // Configuración para el despliegue estático con Nginx
+  nitro: {
+    serveStatic: true,
+    // Asegura que todas las rutas se generen correctamente
+    prerender: {
+      crawlLinks: true
     }
   },
 
