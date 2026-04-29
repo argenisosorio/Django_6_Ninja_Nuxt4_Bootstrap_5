@@ -15,6 +15,7 @@
       for developers building full-stack JavaScript/Python applications with
       decoupled architecture.
     </p>
+    <button @click="generarPDF">Descargar PDF</button>
   </div>
 </template>
 
@@ -34,4 +35,19 @@ onMounted(() => {
     console.log("Ha pasado 1 segundo y quité el loader")
   }, 1000)
 })
+
+const pdfMake = usePDFMake();
+
+const generarPDF = () => {
+  const dd = {
+    content: [
+      { text: '¡Hola desde Nuxt!', style: 'header' },
+      'Este PDF fue generado usando el módulo nuxt-pdfmake.'
+    ],
+    styles: { header: { fontSize: 22, bold: true } }
+  };
+  pdfMake.createPdf(dd).download('ejemplo-nuxt.pdf');
+};
 </script>
+
+
