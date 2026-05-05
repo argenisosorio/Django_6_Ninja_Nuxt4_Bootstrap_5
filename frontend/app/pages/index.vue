@@ -7,30 +7,60 @@
         class="img-fluid mb-3"
         width="50px"
       >
-      Django 6 + Django Ninja + Nuxt 4 + Bootstrap 5
+      <!-- Mostramos el estado 'mensaje' del store de forma reactiva -->
+      {{ helloStore.mensaje }}
     </h1>
-    <p>
-      Example project showcasing API consumption from Django 6 + Django Ninja
-      using Nuxt 4 + Bootstrap 5. Built as a reference implementation
-      for developers building full-stack JavaScript/Python applications with
-      decoupled architecture.
-    </p>
+
+    <div class="mt-4">
+      <!-- Botón que dispara la función 'cambiarTexto' definida en el script -->
+      <button
+        class="btn btn-primary"
+        @click="cambiarTexto"
+      >
+        Cambiar mensaje
+      </button>
+
+      <!-- Botón que dispara la función 'resetearTexto' -->
+      <button
+        class="btn btn-secondary ms-2"
+        @click="resetearTexto"
+      >
+        Resetear
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup>
+// Instanciamos el store de "Hello World". Nuxt lo auto-importa desde app/stores/helloworld.js
+const helloStore = useHelloWorldStore()
+
+// Variable de estado global de Nuxt para controlar la visibilidad del componente Loader
+const loader = useState('loader')
+
+// Composable de Nuxt para configurar metadatos de la página (título de la pestaña)
 useHead({
   title: 'Home'
 })
 
-const loader = useState('loader')
+// Función que utiliza una "Acción" definida dentro del store para modificar el estado
+const cambiarTexto = () => {
+  helloStore.actualizarMensaje('¡El estado ha cambiado globalmente!')
+}
 
+// Función que modifica el estado directamente (Pinia permite acceso directo a los refs)
+const resetearTexto = () => {
+  helloStore.mensaje = '¡Hola Mundo desde Pinia!'
+}
+
+// Hook que se ejecuta cuando el componente ya está cargado en el navegador (DOM)
 onMounted(() => {
   console.log("Activo el loader")
-  loader.value = true
+  loader.value = true // Mostramos el loader al entrar
 
+  // Simulamos un retraso de 1 segundo para ocultar el loader
   setTimeout(() => {
-    loader.value = false
+    loader.value = false // Ocultamos el loader
     console.log("Ha pasado 1 segundo y quité el loader")
   }, 1000)
 })
