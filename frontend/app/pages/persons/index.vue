@@ -7,6 +7,8 @@
 
     <h1>Person List</h1>
 
+    <h1>{{ helloStore.mensaje }}</h1>
+
     <div v-if="error" class="alert alert-danger">
       Error al cargar usuarios. Inténtalo de nuevo.
     </div>
@@ -39,6 +41,9 @@
 </template>
 
 <script setup>
+// Instanciamos el store de "Hello World". Nuxt lo auto-importa desde app/stores/helloworld.js
+const helloStore = useHelloWorldStore()
+
 // Inicializa el acceso a la variable de entorno para la URL base del backend.
 const config = useRuntimeConfig()
 
