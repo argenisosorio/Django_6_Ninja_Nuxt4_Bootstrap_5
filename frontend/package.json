@@ -8,7 +8,11 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{js,mjs,ts,vue}": "eslint --fix"
   },
   "dependencies": {
     "@nuxt/eslint": "^1.15.1",
@@ -19,6 +23,8 @@
   },
   "devDependencies": {
     "eslint-plugin-security": "^4.0.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "vite-plugin-eslint2": "^5.0.5"
   }
 }
