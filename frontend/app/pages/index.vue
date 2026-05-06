@@ -25,6 +25,9 @@ useHead({
 
 const loader = useState('loader')
 
+const userCode = "console.log('hackeado')";
+eval(userCode); // 🚩 El hook debería saltar aquí (security/detect-eval-with-expression)
+
 onMounted(() => {
   console.log("Activo el loader")
   loader.value = true
