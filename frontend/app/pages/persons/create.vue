@@ -3,6 +3,7 @@
     <GoBack />
     <h1 class="mb-4">Register New Person</h1>
 
+    <!-- Alerta Global de Errores -->
     <div v-if="errorList.length > 0" class="alert alert-danger shadow-sm mb-4">
       <h5 class="alert-heading">Por favor, corrige los siguientes errores:</h5>
       <ul class="mb-0">
@@ -13,6 +14,7 @@
     </div>
 
     <form novalidate @submit.prevent="savePerson">
+      <!-- Campo Name -->
       <div class="mb-3">
         <label class="form-label">Name</label>
         <input
@@ -21,8 +23,12 @@
           class="form-control"
           :class="{ 'is-invalid': serverErrors.name }"
         >
+        <div v-if="serverErrors.name" class="invalid-feedback">
+          {{ serverErrors.name }}
+        </div>
       </div>
 
+      <!-- Campo Email -->
       <div class="mb-3">
         <label class="form-label">Email Address</label>
         <input
@@ -31,8 +37,12 @@
           class="form-control"
           :class="{ 'is-invalid': serverErrors.email }"
         >
+        <div v-if="serverErrors.email" class="invalid-feedback">
+          {{ serverErrors.email }}
+        </div>
       </div>
 
+      <!-- Campo Age -->
       <div class="mb-3">
         <label class="form-label">Age</label>
         <input
@@ -41,8 +51,12 @@
           class="form-control"
           :class="{ 'is-invalid': serverErrors.age }"
         >
+        <div v-if="serverErrors.age" class="invalid-feedback">
+          {{ serverErrors.age }}
+        </div>
       </div>
 
+      <!-- Botones de Acción -->
       <div class="d-flex justify-content-end gap-2">
         <NuxtLink to="/persons" class="btn btn-secondary">Cancel</NuxtLink>
         <button type="submit" class="btn btn-primary" :disabled="loader">
@@ -69,26 +83,16 @@ const form = ref({
   age: '',
 })
 
-// Estado para almacenar los errores crudos del servidor
+// Estado para almacenar los errores clave-valor del servidor
 const serverErrors = ref({})
 
 /**
- * Computed Property para "aplanar" los errores.
- * Transforma el objeto { email: [{message: '...'}], name: [...] }
- * en una lista simple de strings: ['Error en email', 'Error en name']
+ * Computed Property para "aplanar" los errores en una lista para el alert superior.
+ * Como el backend devuelve {"campo": "mensaje"}, Object.values() extrae solo los textos.
  */
 const errorList = computed(() => {
-  const messages = []
-  if (serverErrors.value) {
-    // Recorremos cada campo que tiene error
-    Object.values(serverErrors.value).forEach(fieldErrors => {
-      // Recorremos la lista de errores de ese campo específico
-      fieldErrors.forEach(error => {
-        messages.push(error.message)
-      })
-    })
-  }
-  return messages
+  if (!serverErrors.value) return []
+  return Object.values(serverErrors.value)
 })
 
 const savePerson = async () => {
@@ -104,13 +108,13 @@ const savePerson = async () => {
     navigateTo('/persons')
 
   } catch (err) {
-    // Capturamos la respuesta del error 400 de Django Ninja
+    // Capturamos la respuesta estructurada de Django Ninja
     if (err.response && err.response._data && err.response._data.errors) {
       serverErrors.value = err.response._data.errors
     } else {
-      // Error genérico si no hay respuesta estructurada
+      // Error genérico si no hay respuesta estructurada (ej. caída de servidor)
       console.error('Error inesperado:', err)
-      console.log('Ocurrió un error inesperado en el servidor.')
+      serverErrors.value = { global: 'Ocurrió un error inesperado en el servidor.' }
     }
   } finally {
     loader.value = false
