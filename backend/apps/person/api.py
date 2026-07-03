@@ -2,7 +2,8 @@ from typing import List, Any
 from django import forms
 from django.shortcuts import get_object_or_404
 from ninja import Router, ModelSchema, Schema
-from pydantic import field_validator, EmailStr
+# Importamos Field y constr para aplicar restricciones y mensajes personalizados
+from pydantic import field_validator, EmailStr, Field, constr
 from .models import Person
 
 
@@ -30,13 +31,8 @@ class PersonSchema(ModelSchema):
 
 
 class PersonCreateSchema(Schema):
-    """
-    Usamos Any = None para que Pydantic NO detenga la petición
-    y permita que sea Django Form quien maneje los mensajes de error.
-
-    Comentadas las validaciones de tipo para dejar pasar los datos.
-    """
-    name: str
+    # strip_whitespace evita que guarden puros espacios en blanco "   "
+    name: str = Field(..., min_length=1, strip_whitespace=True)
     email: EmailStr
     age: int
 

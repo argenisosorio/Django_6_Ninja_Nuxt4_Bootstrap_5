@@ -22,17 +22,31 @@ urlpatterns = [
     path("api/", api.urls),
 ]
 
+# Diccionario global de traducciones para Pydantic v2
+DICCIONARIO_ERRORES = {
+    "missing": "Este campo es obligatorio.",
+    "string_too_short": "El campo no puede estar vacío.",
+    "value_error": "El valor ingresado no es válido.",
+    # Errores de Email
+    "value_error.email": "El correo electrónico no es válido.",
+    "email_parsing": "El formato del correo electrónico es incorrecto (debe incluir @).",
+    # Errores de Números (Edad)
+    "int_parsing": "Debes ingresar un número entero válido.",
+    "int_type": "Este campo debe ser un número.",
+}
+
 @api.exception_handler(ValidationError)
 def custom_validation_errors(request, exc):
-    """
-    Transforma los errores de Pydantic en un JSON plano: {"campo": "error"}
-    """
     errors = {}
     for error in exc.errors:
-        # error['loc'] contiene la ubicación del campo (ej. ('body', 'email'))
-        # Tomamos el último elemento que es el nombre del campo
         field_name = error["loc"][-1]
-        errors[field_name] = error["msg"]
+        error_type = error["type"]
+
+        # 1. Buscamos si tenemos una traducción exacta para ese tipo de error
+        # 2. Si no existe, usamos el mensaje por defecto que trae Pydantic
+        mensaje_espanol = DICCIONARIO_ERRORES.get(error_type, error["msg"])
+
+        errors[field_name] = mensaje_espanol
 
     return api.create_response(
         request,
