@@ -13,6 +13,10 @@
       </ul>
     </div>
 
+    <p>
+      {{ errorList }}
+    </p>
+
     <form novalidate @submit.prevent="savePerson">
       <!-- Campo Name -->
       <div class="mb-3">

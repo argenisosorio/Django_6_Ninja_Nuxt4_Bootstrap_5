@@ -2,27 +2,24 @@ from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 class Person(models.Model):
-    # Validador: Solo letras y espacios
-    solo_letras = RegexValidator(
-        regex=r'^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$',
-        message='El campo Nombre solo debe contener letras y espacios.'
-    )
-
     name = models.CharField(
         max_length=100,
-        validators=[solo_letras],
+        null=True,
+        blank=True,
         verbose_name="Nombre"
     )
 
     # EmailField ya valida el formato de correo por defecto en Django
-    email = models.EmailField(verbose_name="Correo Electrónico")
+    email = models.CharField(
+        null=True,
+        blank=True,
+        verbose_name="Correo Electrónico"
+    )
 
     # Validamos que sea entre 0 y 120 años
-    age = models.PositiveIntegerField(
-        validators=[
-            MinValueValidator(0, message="MODEL: El campo Edad no puede ser negativo."),
-            MaxValueValidator(120, message="MODEL: El campo Edad no puede ser mayor a 120 años.")
-        ],
+    age = models.CharField(
+        null=True,
+        blank=True,
         verbose_name="Edad"
     )
 

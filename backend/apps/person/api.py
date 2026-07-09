@@ -32,9 +32,9 @@ class PersonSchema(ModelSchema):
 
 class PersonCreateSchema(Schema):
     # strip_whitespace evita que guarden puros espacios en blanco "   "
-    name: str = Field(..., min_length=1, strip_whitespace=True)
-    email: EmailStr
-    age: int
+    name: str
+    email: str
+    age: str
 
 # --- ENDPOINTS (CRUD) ---
 
