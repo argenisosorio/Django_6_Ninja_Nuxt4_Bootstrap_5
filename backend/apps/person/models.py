@@ -11,6 +11,7 @@ class Person(models.Model):
 
     # EmailField ya valida el formato de correo por defecto en Django
     email = models.CharField(
+        max_length=100,
         null=True,
         blank=True,
         verbose_name="Correo Electrónico"
@@ -18,6 +19,7 @@ class Person(models.Model):
 
     # Validamos que sea entre 0 y 120 años
     age = models.CharField(
+        max_length=100,
         null=True,
         blank=True,
         verbose_name="Edad"
